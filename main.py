@@ -1,6 +1,6 @@
 
 board = [str(x) for x in range(10)]
-test_board = ['#','1','2','3','4','X','O','7','8','9']
+test_board = ['#','O','X','X','4','X','X','7','8','X']
 test_board_full = ['X' for x in range(10)]
 
 def draw_board(board):
@@ -37,13 +37,22 @@ def comp_choice():
 
 def check_full_board(board):
     for pos in range(1,10):
-        return not check_space(pos,test_board)
+        if check_space(pos,board):
+            return False
+    return True
 
-def check_win(board,mark):
-    pass
+def check_win(board):
+    return ((board[1] == board[2] == board[3]) or
+    (board[4] == board[5] == board[6]) or
+    (board[7] == board[8] == board[9]) or
+    (board[1] == board[5] == board[9]) or
+    (board[3] == board[5] == board[7]) or
+    (board[1] == board[4] == board[7]) or
+    (board[2] == board[5] == board[8]) or
+    (board[3] == board[6] == board[9]))
 
 def check_space(pos,board):
     return not board[pos] in ['X','O']
 
-draw_board(test_board_full)
-print(check_full_board(test_board))
+draw_board(test_board)
+print(check_full_board(test_board_full))
