@@ -22,14 +22,6 @@ def player_choice():
         except:
             pos = 0
             continue
-        # try:
-        #     int(pos)
-        #     if not pos in range(1,10):
-        #         pos = 0
-        #         continue
-        # except:
-        #     pos = 0
-        #     continue
 
 
 def comp_choice():
