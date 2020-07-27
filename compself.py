@@ -1,4 +1,4 @@
-from game import *
+from game import minimax, check_win_mark, check_full_board, check_space
 import random
 import sys
 
@@ -11,30 +11,40 @@ x_wins = 0
 o_wins = 0
 
 
-# def comp_choice(bo,mark):
-#     available_moves = []
-#     if mark == 'X':
-#         check_pattern = ['X','O']
-#     else:
-#         check_pattern = ['O','X']
-#     for i, pos in enumerate(bo):
-#         if check_space(i,bo) and i != 0:
-#             available_moves.append(i)
-#
-#     if len(available_moves) > 0:
-#
-#         for pos in available_moves:
-#             for mark in check_pattern:
-#                 check_board = list(bo)
-#                 check_board[pos] = mark
-#                 if check_win(check_board):
-#                     bo[pos] = mark
-#                     return True
-#         else:
-#             pos = random.choice(available_moves)
-#             bo[pos] = mark
-#             return True
-#     return False
+def best_move(bo, player):
+    if player == 'O':
+        best_score = -2
+        available_moves = []
+        move = 0
+        for i, pos in enumerate(bo):
+            if check_space(i, bo) and i != 0:
+                available_moves.append(i)
+        for pos in available_moves:
+            old_pos = bo[pos]
+            bo[pos] = 'O'
+            score = minimax(bo, 'X',-2,2)
+            bo[pos] = old_pos
+            if score > best_score:
+                best_score = score
+                move = pos
+        return move
+    else:
+        best_score = 2
+        available_moves = []
+        move = 0
+        for i, pos in enumerate(bo):
+            if check_space(i, bo) and i != 0:
+                available_moves.append(i)
+        for pos in available_moves:
+            old_pos = bo[pos]
+            bo[pos] = 'X'
+            score = minimax(bo, 'O',-2,2)
+            bo[pos] = old_pos
+            if score < best_score:
+                best_score = score
+                move = pos
+        return move
+
 
 
 for i in range(int(plays)):
@@ -42,20 +52,15 @@ for i in range(int(plays)):
     while not check_full_board(board):
 
 
-        board[best_move(board)] = 'X'
+        board[best_move(board,'X')] = 'X'
 
-        #
-        # if not comp_choice(board,'X'):
-        #     count_tie += 1
-        #     break
-        if check_win(board):
+        if check_win_mark(board,'X'):
             x_wins += 1
             break
-        board[best_move(board)] = 'O'
-        # if not comp_choice(board,'O'):
-        #     count_tie += 1
-        #     break
-        if check_win(board):
+
+        board[best_move(board,'O')] = 'O'
+
+        if check_win_mark(board,'O'):
             o_wins +=1
             break
         if check_full_board(board):
