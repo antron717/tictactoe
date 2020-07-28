@@ -1,7 +1,8 @@
 # import random
 from termcolor import colored
 import sys
-
+import os
+os.system('color')
 board = [str(x) for x in range(10)]
 
 def color_mark(bo,i):
